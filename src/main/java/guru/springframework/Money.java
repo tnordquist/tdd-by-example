@@ -1,6 +1,6 @@
 package guru.springframework;
 
-public abstract class Money {
+public class Money {
 
   protected String currency;
   protected int amount;
@@ -14,8 +14,6 @@ public abstract class Money {
     return currency;
   }
 
-  public abstract Money times(int multiplier);
-
   public static Dollar dollar(int amount) {
     return new Dollar(amount, "USD");
   }
@@ -27,6 +25,19 @@ public abstract class Money {
   @Override
   public boolean equals(Object obj) {
     Money money = (Money) obj;
-    return amount == money.amount && this.getClass().equals(obj.getClass());
+    return amount == money.amount && this.currency == money.currency;
   }
+
+  @Override
+  public String toString() {
+    return "Money{" +
+        "currency='" + currency + '\'' +
+        ", amount=" + amount +
+        '}';
+  }
+
+  public Money times(int multiplier) {
+    return new Money(amount * multiplier, this.currency);
+  }
+
 }
