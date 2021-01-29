@@ -1,9 +1,11 @@
 package guru.springframework;
 
+import java.util.Objects;
+
 public class Money implements Expression {
 
-  protected String currency;
-  protected int amount;
+  protected final String currency;
+  protected final int amount;
 
   public Money(int amount, String currency) {
     this.amount = amount;
@@ -25,7 +27,7 @@ public class Money implements Expression {
   @Override
   public boolean equals(Object obj) {
     Money money = (Money) obj;
-    return amount == money.amount && this.currency == money.currency;
+    return amount == money.amount && Objects.equals(this.currency, money.currency);
   }
 
   @Override
@@ -41,10 +43,12 @@ public class Money implements Expression {
         '}';
   }
 
+  @Override
   public Expression times(int multiplier) {
     return new Money(amount * multiplier, this.currency);
   }
 
+  @Override
   public Expression plus(Expression addend) {
     return new Sum(this, addend);
   }
